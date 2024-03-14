@@ -16,6 +16,8 @@ env:
   # renovate: datasource=npm depName=conventional-changelog-conventionalcommits
   CONVENTIONAL_CHANGELOG_CONVENTIONALCOMMITS_VERSION: 6.1.0
 
+  # https://github.com/KengoTODA/gradle-semantic-release-plugin
+
   # renovate: datasource=npm depName=gradle-semantic-release-plugin
   GRADLE_SEMANTIC_RELEASE_PLUGIN_VERSION: 1.7.7
 
@@ -33,6 +35,8 @@ jobs:
       - name: Checkout
         # yamllint disable-line rule:line-length
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        # XXX This was potentially disabled before to fix issues with protected branches,
+        # XXX needed to comment it for semantic-release-github-actions-tags to work
         # with:
         #   persist-credentials: false
 
@@ -55,6 +59,9 @@ jobs:
         # Hints on using semantic release without npm:
         # https://semantic-release.gitbook.io/semantic-release/support/faq#can-i-use-semantic-release-to-publish-non-javascript-packages
         #
+        # List of plugins:
+        # https://semantic-release.gitbook.io/semantic-release/extending/plugins-list
+        #
         #
 
       - name: Release
@@ -75,6 +82,7 @@ jobs:
         with:
           # dry_run: true
           semantic_version: 21.1.2
+
           extra_plugins:
             "@semantic-release/changelog@\
             ${{ env.SEMANTIC_RELEASE_CHANGELOG_VERSION }} \
@@ -89,3 +97,28 @@ jobs:
 
           # gradle-semantic-release-plugin@\
           # ${{ env.GRADLE_SEMANTIC_RELEASE_PLUGIN_VERSION }}
+          #
+          # Note: Does not have to use gradle.properties file
+          # Could possible use the @semantic-release/exec plugin to run
+          # - something that sets a new release version number in the prepare step
+          # - something that sets a snapshot version number in the success step, creates a commit and pushes it?
+          #
+          # Variables available in exec:
+          # https://github.com/semantic-release/semantic-release/blob/master/docs/developer-guide/js-api.md#result
+          #
+          # Better would probably be an approach where different branches represent different distribution channels,
+          # e.g. master for releases, devel for development; or release for releases, master for development
+          # Then a merge to release would always trigger a release
+          #
+          # Problem:
+          # - do semantic release configurations need to be different? (e.g. we will probably not want github releases, tags created etc.)
+          # - need different logic for determining version per distribution channel (add -SNAPSHOT version)
+          #
+          # Other approach: No snapshots
+          # - always create releases (not on-demand), means usually a new version per PR merged
+          # - only publish if a release is created
+          # - what about unreleased changes? (which kind of commits trigger a release?)
+          #
+          # Related discussion:
+          # https://github.com/semantic-release/semantic-release/issues/1204
+          #
