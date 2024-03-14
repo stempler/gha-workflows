@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/stempler/gha-workflows/compare/v1.0.0...v1.1.0) (2024-03-14)
+
+
+### Features
+
+* **dummy:** new feature ([1a70cc5](https://github.com/stempler/gha-workflows/commit/1a70cc54419ee8a724b698bcaddd9c613ba68180))
+
 ## 1.0.0 (2024-03-14)
 
 
