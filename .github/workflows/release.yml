@@ -77,7 +77,11 @@ jobs:
             @semantic-release/git@\
             ${{ env.SEMANTIC_RELEASE_GIT_VERSION }} \
             conventional-changelog-conventionalcommits@\
-            ${{ env.CONVENTIONAL_CHANGELOG_CONVENTIONALCOMMITS_VERSION }}"
+            ${{ env.CONVENTIONAL_CHANGELOG_CONVENTIONALCOMMITS_VERSION }} \
+            semantic-release-github-actions-tags@\
+            "
+
+          # https://github.com/davelosert/semantic-release-github-actions-tags
 
           # gradle-semantic-release-plugin@\
           # ${{ env.GRADLE_SEMANTIC_RELEASE_PLUGIN_VERSION }}

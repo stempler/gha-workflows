@@ -49,3 +49,4 @@ plugins:
         - CHANGELOG.md
         # - gradle.properties
   - "@semantic-release/github"
+  - 'semantic-release-github-actions-tags'
